@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load price_tags %}
+
+{% block body %}
+  <main>
+    <div class="container">
+
+    <div class="table-responsive text-nowrap">
+    <h2>Order Summary</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="text-center align-middle" scope="col">Item title</th>
+            <th class="text-center align-middle" scope="col">Price</th>
+            <th class="text-center align-middle" scope="col">Quantity</th>
+            <th class="text-center align-middle" scope="col">Total Item Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order_item in object.items.all %}
+        <tr>
+            <td class="text-center align-middle">{{ order_item.item.item.title }}</td>
+            <td class="text-center align-middle">{{ order_item.price }}/{{order_item.item.item.get_measured_by_display}}</td>
+            <td class="text-center align-middle"><a onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="fas fa-minus mr-2"></i></a>
+                <input class="quantity" min=0 name="quantity" value="{{ order_item.quantity }}"  type="number" style="width: 3em">
+                <a onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="fas fa-plus ml-2"></i></a>
+                <button class="btn btn-sm "  disabled>update</button>
+            </td>
+            <td class="text-center align-middle">
+            {% if order_item.discounted_price %}
+                ₹{{ order_item.get_total_discount_item_price }}
+                <span class="badge badge-primary">Saving ₹{{ order_item.get_amount_saved }}</span>
+            {% else %}
+                ₹{{ order_item.get_total_item_price }}
+            {% endif %}
+            <a style='color: red;' href="#">
+                <i class="fas fa-trash float-right"></i>
+            </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan='4'>Your cart is empty</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+            <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if object.coupon %}
+        <tr>
+            <td colspan="3"><b>Coupon</b></td>
+            <td><b>-₹{{ object.coupon.amount }}</b></td>
+        </tr>
+        {% endif %}
+        {% if object.get_total %}
+        <tr>
+            <td colspan="3"><b>Order Total</b></td>
+            <td><b>₹{{ object.get_total }}</b>
+            {% if object.get_saved %}
+            <span class="badge badge-primary">Saving ₹{{ object.get_saved }}</span>
+            {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+            <a class='btn btn-warning float-right ml-2' href='/checkout/'>Proceed to checkout</a>
+            <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+            </td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    </div>
+
+    </div>
+  </main>
+
+{% endblock body %}
+
+

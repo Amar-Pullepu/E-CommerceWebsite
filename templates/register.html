@@ -1,0 +1,65 @@
+{% extends "Base.html" %}
+
+{% block title %}User Register{% endblock %}
+
+
+
+{% block body %}
+<main>
+<div class="container">
+      <section class="mb-4">
+        <div class="row wow fadeIn">
+          <div class='col-6 offset-3'>
+            <h1>Sign Up</h1>
+            <p>Already have an account? Then please <a href='{% url "login" %}'>sign in</a></p>
+  
+  <form action='/account/register/' method='post' onSubmit="return beforeSubmit()" class="form-horizontal" enctype="multipart/form-data">
+   {% csrf_token %}
+      {% for message in messages %}
+    <label style="color:#ed3c2f";>{{message}}</label><br>
+      {% endfor %}
+    <div class="form-group">
+      <label class="col-sm-12 control-label requiredField"><strong>Name: </strong></label>
+      <div class="col-sm-12">
+        <input class="form-control" id="name" type="text" name="name" placeholder="Name" required>
+        </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-12 control-label requiredField"><strong>Email: </strong></label>
+      <div class="col-sm-12">
+        <input class="form-control" id="email" type="email" name="email" placeholder="Email" required>
+      </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-12 control-label requiredField"><strong>Phone: </strong></label>
+      <div class="col-sm-12">
+        <input class="form-control" id="phone" type="tel" name="phone" placeholder="9876543210" pattern="[0-9]{10}"required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-12 control-label requiredField"><strong>Password: </strong></label>
+      <div class="col-sm-12">
+        <input class="form-control" id="password" type="password" name="password" placeholder="Password" required>
+      </div>
+    </div>
+      <div class="form-group">
+        <label class="col-sm-12 control-label requiredField"><strong>Confirm Password: </strong></label>
+      <div class="col-sm-12">
+        <input class="form-control" id="repassword" type="password" name="repassword" placeholder="Confirm Password" required>
+      </div>
+    </div>
+    <button id="submit" type="submit" class="btn btn-primary waves-effect waves-light">
+     Register
+    </button>
+      
+  </form> </div>
+        </div>
+      </section>
+    </div>
+  </main>
+{% load static %}
+
+{% endblock %}
+{% block extra_scripts %}
+<script type="text/javascript" src="{% static 'javaScripts/preValidation.js' %}"></script>
+{% endblock extra_scripts %}

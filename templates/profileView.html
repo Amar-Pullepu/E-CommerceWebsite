@@ -1,0 +1,63 @@
+{% extends "Base.html" %}
+
+{% block title %}Profile Details{% endblock %}
+
+{% block navbar %}
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+       {% if user.is_authenticated %}
+          <li><div class="dropdown">
+              <button class="dropbtn">{{user.name}}</button>
+              <div class="dropdown-content">
+                <a href="/account/profileView">View Profile</a>
+                <a href="/account/profileEdit">Edit Profile</a>
+                <a href="/account/changePasswd">Change Password</a>
+              </div>
+            </div></li>
+        <li><a href="/account/logout">Logout</a></li>
+       {% else %}
+        <li><a href="/account/register">Register</a></li>
+        <li><a href="/account/login">Login</a></li>
+       {% endif %}
+      </ul>
+{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container">
+      <section class="mb-4">
+        <div class="row wow fadeIn">
+          <div class='col-6 offset-3'>
+    {% if user.is_authenticated %}
+    <div class="form-group">
+    <div class="col-sm-2"></div>
+      <label class="col-sm-2 control-label" align="right">Name: </label>
+      <div class="col-sm-4">
+        <label class="col-sm-4 control-label" align="right">{{user.name}}</label>
+      </div>
+     </div><br><br>
+    <div class="form-group">
+        <div class="col-sm-2"></div>
+      <label class="col-sm-2 control-label" align="right">Email: </label>
+      <div class="col-sm-4">
+        <label class="col-sm-4 control-label" align="right">{{user.email}}</label>
+      </div>
+    </div><br><br>
+    <div class="form-group">
+        <div class="col-sm-2"></div>
+        <label class="col-sm-2 control-label" align="right">Phone: </label>
+      <div class="col-sm-4">
+        <label class="col-sm-4 control-label" align="right">{{user.phone}}</label>
+      </div>
+    </div><br><br>
+    {% endif %}
+</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+
+{% endblock %}
